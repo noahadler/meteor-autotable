@@ -1,0 +1,25 @@
+<template name="autotable">
+  <table class="table">
+    <thead>
+      <tr>
+      {{#each fields}}
+        <th>{{fieldName}}</th>
+      {{/each}}
+      </tr>
+    </thead>
+    <tbody>
+      {{#each record}}
+        {{> autotableRow recordId=_id collection=../collection}}
+      {{/each}}
+    </tbody>
+  </table>
+</template>
+
+<template name="autotableRow">
+  <tr>
+    {{#each fields}}
+      <td>{{valueOf .. fieldName}}</td>
+    {{/each}}
+  </tr>
+</template>
+
