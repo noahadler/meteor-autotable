@@ -1,0 +1,8 @@
+{
+  "packages": {
+    "autotable": {
+      "path": "../"
+    },
+    "bootstrap-3": {}
+  }
+}
