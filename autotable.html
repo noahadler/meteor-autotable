@@ -1,9 +1,6 @@
 <template name="autotable">
-  {{> autotableInner fields=fields collection=collection}}
-</template>
-
-<template name="autotableInner">
   <table class="table">
+  {{#with addFieldsToContext}}
     <thead>
       <tr>
       {{#each fields}}
@@ -12,9 +9,18 @@
       </tr>
     </thead>
     <tbody>
-      {{#each record}}
-        {{> autotableRow record=this fields=../fields collection=../collection}}
+    {{#each records}}
+      <tr>
+        {{#each ../fields}}
+        <td>
+          {{#with fieldCellContext fieldName .. ../.. }}
+            {{> UI.contentBlock this }}
+            {{> atDefaultColumn this }}
+          {{/with}}
+        </td>
       {{/each}}
+      </tr>
+    {{/each}}
       <tr>
         <td colspan={{fieldCount}}>
           <button class="btn add">Add...</button>
@@ -27,7 +33,7 @@
                   <h4 class="modal-title">Create new</h4>
                 </div>
                 <div class="modal-body">
-                  {{> quickForm collection=collection type="insert"}}
+                  {{> quickForm collection=../collection type="insert"}}
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -40,14 +46,18 @@
         </td>
       </tr>
     </tbody>
+  {{/with}}
   </table>
 </template>
 
-<template name="autotableRow">
-  <tr>
-    {{#each fields}}
-      <td>{{valueOf fieldName ../record }}</td>
-    {{/each}}
-  </tr>
+<template name="atColumn">
+  {{#with customTemplateRenderContext .. ../..}}
+    {{> renderCustomTemplate}}
+  {{/with}}
 </template>
 
+<template name="atDefaultColumn">
+  {{#if noTemplateFound}}
+    {{value}}
+  {{/if}}
+</template>

@@ -5,6 +5,17 @@
 <body>
   <h1>Autotable Example</h1>
 
-  {{> autotable collection="ExampleCollection"}}
+  {{# autotable collection="ExampleCollection"}}
+    {{> atColumn field="submitted" template="submittedCell"}}
+    {{> atColumn field="message" template="nameTemplate"}}
+  {{/autotable}}
 
 </body>
+
+<template name="nameTemplate">
+  <b>{{value}}</b>
+</template>
+
+<template name="submittedCell">
+  {{shortDate value}}
+</template>

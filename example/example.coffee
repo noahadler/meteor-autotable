@@ -14,3 +14,11 @@
     type: [String]
     label: 'Tags'
     defaultValue: []
+
+if Meteor.isClient
+  UI.body.cellTemplates =
+    submitted: 'submittedCell'
+  
+  Template.submittedCell.helpers
+    shortDate: (d) ->
+      moment(d).format('M/D/YY - h:mm a')
