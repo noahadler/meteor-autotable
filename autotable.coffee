@@ -3,6 +3,7 @@ Template.autotable.helpers
   addFieldsToContext: ->
     console.log 'autotable.transformContext', @
     context = _.extend {}, @
+    context.fieldTemplates = new ReactiveDict()
     
     if @collection? and window[@collection]
       console.log 'Found collection named ' + @collection + ' on window'
@@ -17,16 +18,25 @@ Template.autotable.helpers
         
         return context
         
+  reactiveConfig: ->
+    console.log 'reactiveConfig', @, arguments
+    return @fieldTemplates
+        
   records: ->
-    console.log 'RECORDS REACTIVE HELPER', @, arguments
     window[@collection].find()
     
   fieldCount: ->
     @fields.length
   
-  fieldCellContext: (fieldName, doc) ->
-    console.log 'setting up context for cell ', doc.name, fieldName #  arguments
-    return { fieldName: fieldName, value: doc[fieldName] }
+  fieldCellContext: (fieldName, doc, grandparent) ->
+    return { fieldName: fieldName, value: doc[fieldName], fieldConfig: grandparent.fieldTemplates }
+    
+  renderCell: ->
+    tpl = @fieldConfig.get @fieldName
+    if tpl?
+      return Template[tpl]
+    else
+      return Template.atDefaultColumn
     
 Template.autotable.events
   'click button.add': (e,tpl) ->
@@ -34,20 +44,6 @@ Template.autotable.events
     $(tpl.find 'div[role="dialog"]').modal('show')
 
 Template.atColumn.helpers
-  customTemplateRenderContext: (parent) ->
-    _.extend parent, @
-  renderCustomTemplate: ->
-    #console.log 'Trying to render cell with custom template', @, arguments
-    if @fieldName == @field and Template[@template]?
-      @cellTemplateFound = true
-      console.log '  rendering custom template for ' + @value + '\'s '+@field+' field: ' + @template
-      return Template[@template]
-    else
-      return null #Template.atDefaultColumn
+  customTemplateRenderContext: (fieldConfig) ->
+    fieldConfig.set @field, @template
     
-Template.atDefaultColumn.helpers
-  noTemplateFound: ->
-    customTemplate = @cellTemplateFound
-    delete @cellTemplateFound
-    console.log '  rendering default template for ' + @value + '\'s '+@field+' field? ' + (not customTemplate)
-    not customTemplate

@@ -1,6 +1,7 @@
 <template name="autotable">
   <table class="table">
   {{#with addFieldsToContext}}
+    {{> UI.contentBlock reactiveConfig}}
     <thead>
       <tr>
       {{#each fields}}
@@ -14,11 +15,10 @@
         {{#each ../fields}}
         <td>
           {{#with fieldCellContext fieldName .. ../.. }}
-            {{> UI.contentBlock this }}
-            {{> atDefaultColumn this }}
+            {{> renderCell this}}
           {{/with}}
         </td>
-      {{/each}}
+        {{/each}}
       </tr>
     {{/each}}
       <tr>
@@ -52,12 +52,10 @@
 
 <template name="atColumn">
   {{#with customTemplateRenderContext .. ../..}}
-    {{> renderCustomTemplate}}
+    {{! > renderCustomTemplate}}
   {{/with}}
 </template>
 
 <template name="atDefaultColumn">
-  {{#if noTemplateFound}}
-    {{value}}
-  {{/if}}
+  {{value}}
 </template>
