@@ -37,6 +37,10 @@ Template.autotable.helpers
       return Template[tpl]
     else
       return Template.atDefaultColumn
+
+  modalId: ->
+    console.log 'modalId', @, arguments
+    'autotable-quick-add'
     
 Template.autotable.events
   'click button.add': (e,tpl) ->

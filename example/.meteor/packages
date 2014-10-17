@@ -7,7 +7,9 @@ standard-app-packages
 autopublish
 insecure
 coffeescript
-collection2
-simple-schema
-autotable
-bootstrap-3
+noahadler:autotable
+mizzao:bootstrap-3
+aldeed:collection2@2.0.0
+aldeed:simple-schema@1.0.0
+aldeed:autoform@4.0.0-rc2
+

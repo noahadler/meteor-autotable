@@ -10,6 +10,8 @@
     type: Date
     label: 'Submission timestamp'
     defaultValue: new Date()
+    autoform:
+      omit: true
   tags:
     type: [String]
     label: 'Tags'
