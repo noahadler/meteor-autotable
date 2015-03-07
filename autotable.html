@@ -20,6 +20,13 @@
         </td>
         {{/each}}
       </tr>
+      <tr style="display: none;">
+        <td colspan={{fieldCount ..}}>
+          <div style="margin-left: 10%; margin-right: 10%">
+            {{> quickForm id=updateFormId doc=this collection=../collection type="update" template="bootstrap3-horizontal" label-class="col-sm-3" input-col-class="col-sm-9"}}
+          </div>
+        </td>
+      </tr>
     {{/each}}
       <tr>
         <td colspan={{fieldCount}}>
@@ -33,7 +40,7 @@
                   <h4 class="modal-title">Create new</h4>
                 </div>
                 <div class="modal-body">
-                  {{> quickForm id=modalId collection=../collection type="insert"}}
+                  {{> quickForm id=modalId collection=../collection type="insert" template="bootstrap3-horizontal" label-class="col-sm-3" input-col-class="col-sm-9"}}
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

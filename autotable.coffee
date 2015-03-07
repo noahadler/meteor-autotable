@@ -25,8 +25,11 @@ Template.autotable.helpers
   records: ->
     window[@collection].find()
     
-  fieldCount: ->
-    @fields.length
+  fieldCount: (f) ->
+    (f or @).fields.length
+
+  updateFormId: ->
+    'update-' + @_id
   
   fieldCellContext: (fieldName, doc, grandparent) ->
     return { fieldName: fieldName, value: doc[fieldName], fieldConfig: grandparent.fieldTemplates }
@@ -46,6 +49,9 @@ Template.autotable.events
   'click button.add': (e,tpl) ->
     console.log 'add!', @, arguments
     $(tpl.find 'div[role="dialog"]').modal('show')
+  'click tbody tr': (e,tpl) ->
+    console.log 'click!', @, arguments
+    $(e.target).closest('tr').next().toggle()
 
 Template.atColumn.helpers
   customTemplateRenderContext: (fieldConfig) ->
